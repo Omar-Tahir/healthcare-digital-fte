@@ -1,0 +1,36 @@
+{
+  "expectations": [
+    {
+      "text": "Output contains a HYGIENE REPORT section",
+      "passed": true,
+      "evidence": "Output contains 'HYGIENE REPORT — 2026-04-19' with ══ borders and per-check status icons"
+    },
+    {
+      "text": "ADR index check reports both the number of ADR files on disk and the number of entries in README.md",
+      "passed": true,
+      "evidence": "Check 8 reports: '14 ADR files on disk (ADR-001 through ADR-014)' and 'README entries: 14 — exact match'"
+    },
+    {
+      "text": "Output runs the secret scan and explicitly reports CLEAN or issues found",
+      "passed": true,
+      "evidence": "Check 1 explicitly reports CLEAN for src/*.py; notes .env issue as observation but skill scope is py files"
+    },
+    {
+      "text": "Output runs the PHI scan and explicitly reports CLEAN or issues found",
+      "passed": true,
+      "evidence": "Check 6 reports CLEAN; correctly identifies social_security in audit.py as the blocklist, not PHI"
+    },
+    {
+      "text": "Output checks and reports the CLAUDE.md line count",
+      "passed": true,
+      "evidence": "Check 2 reports '64 lines — MINOR OVERFLOW (4 lines over the 60-line limit)'"
+    },
+    {
+      "text": "Output reports the test suite health result",
+      "passed": true,
+      "evidence": "Check 5 reports 'ASSUMED BASELINE (not verified — Bash unavailable)' with last known count 271 passed, 5 skipped"
+    }
+  ],
+  "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0},
+  "timing": {"total_tokens": 37078, "duration_ms": 348505, "total_duration_seconds": 348.5}
+}

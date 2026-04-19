@@ -1,0 +1,22 @@
+[
+  {"query": "The CDI agent is generating queries like 'Would you agree the patient has AKI?' — that's a leading query and it's non-compliant. Can you fix src/agents/cdi_agent.py to generate AHIMA-compliant queries?", "should_trigger": true},
+  {"query": "I need to add AKI detection to the CDI agent — when creatinine rises 0.3 mg/dL within 48 hours and the note doesn't mention AKI, we should generate a physician query", "should_trigger": true},
+  {"query": "Can you write the CDI_QUERY_V1_0 prompt in src/prompts/cdi_query.py? It needs to generate non-leading multiple-choice queries for physicians", "should_trigger": true},
+  {"query": "The CDI agent needs a new detection trigger for heart failure without type specification — when the note says 'CHF' without systolic/diastolic and BNP > 400, we should query", "should_trigger": true},
+  {"query": "I'm reviewing the physician query templates — do they all include 'condition not present' and 'unable to determine' as options? AHIMA requires these", "should_trigger": true},
+  {"query": "We need to add a malnutrition detection trigger: BMI < 18.5 or albumin < 3.0 should prompt a CDI query if 'malnutrition' isn't documented", "should_trigger": true},
+  {"query": "The CDI query for sepsis is presenting options with the revenue-maximizing answer first. AHIMA says options must be in neutral order. Can you reorder?", "should_trigger": true},
+  {"query": "I need to implement the concurrent CDI workflow — queries should trigger when DocumentReference status changes to 'current', not after discharge", "should_trigger": true},
+  {"query": "Can you add an escalation path for CDI queries — if the physician doesn't respond in 24 hours, send a follow-up; if 48 hours, flag for CDI manager", "should_trigger": true},
+  {"query": "The test_cdi_agent.py needs a test case verifying that when a physician disagrees with a query, we accept their clinical judgment and log it in the audit trail", "should_trigger": true},
+  {"query": "Write a CDI detection trigger for alcohol withdrawal — when CIWA protocol is ordered but the note only says 'alcohol use', not 'dependence'", "should_trigger": true},
+  {"query": "I need to add documentation gap detection for pressure ulcer staging — wound care notes have stage 3 but the physician note just says 'pressure ulcer'", "should_trigger": true},
+  {"query": "The Excludes 1 check in the rules engine is letting through E10.x and E11.x — can you fix the lookup table?", "should_trigger": false},
+  {"query": "I need to calculate the DRG weight difference between DRG 291 and DRG 293 for the CFO dashboard", "should_trigger": false},
+  {"query": "Can you add retry logic with circuit breaker to the FHIR client for handling 503 errors?", "should_trigger": false},
+  {"query": "Write a structlog processor that redacts PHI from log entries before they're written to disk", "should_trigger": false},
+  {"query": "I need to parse C-CDA XML sections from a DocumentReference — the assessment section uses LOINC 51848-0", "should_trigger": false},
+  {"query": "Can you update the prior auth CPT lookup table with the latest payer requirements for MRI spine?", "should_trigger": false},
+  {"query": "The NLP entity recognition module needs to detect medication names — can you add a medication NER pattern?", "should_trigger": false},
+  {"query": "I need to refactor the DRGGrouper.calculate_impact() method to return a DRGNarrative instead of raw numbers", "should_trigger": false}
+]

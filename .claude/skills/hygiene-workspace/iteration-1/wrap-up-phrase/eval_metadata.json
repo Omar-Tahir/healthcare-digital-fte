@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "wrap-up-phrase",
+  "prompt": "wrapping up — run /hygiene on /mnt/d/HealthCare_Digital_Fte please",
+  "assertions": [
+    "Output contains a HYGIENE REPORT section",
+    "Output runs a skill validity check against .claude/skills/*/SKILL.md files",
+    "Output runs a prompt injection scan on CLAUDE.md and skill files",
+    "Output runs a dead file cleanup check",
+    "Output runs a dependency audit check",
+    "Output includes a final 'Session closed:' status line"
+  ]
+}

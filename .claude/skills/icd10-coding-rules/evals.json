@@ -1,0 +1,22 @@
+[
+  {"query": "The rules engine is letting through E10.x and E11.x together on the same claim — I think we're missing an Excludes 1 check. Can you fix src/core/icd10/rules_engine.py?", "should_trigger": true},
+  {"query": "We have a patient in observation status with 'possible pneumonia' in the note. The coding agent is suggesting J18.9 — that seems wrong for outpatient. What should it suggest instead?", "should_trigger": true},
+  {"query": "I need to add validation for mandatory code sequencing — when someone codes E11.22 (DM with CKD) the system should require N18.x to follow. Where does this logic go?", "should_trigger": true},
+  {"query": "Can you update the coding_agent to detect when a combination code like I11.0 should be used instead of coding I10 and I50.9 separately?", "should_trigger": true},
+  {"query": "The test_compliance_guardrails.py has a failing test for POA indicator validation — it expects 'Y' for ER conditions but the code returns 'U'. Can you investigate?", "should_trigger": true},
+  {"query": "I need to add the list of uncertain qualifier words to the NLP negation module — things like 'probable', 'suspected', 'rule out'. What's the complete list?", "should_trigger": true},
+  {"query": "We're building a new specificity upgrade detector — when the note says 'heart failure' without type, we should flag it for upgrade to I50.23. Can you add this to the CDI detection logic?", "should_trigger": true},
+  {"query": "The CodingGuidelineViolationError is being raised but caught silently in the API layer. Per constitution Article II.3, this should be a hard stop. Fix the error handling in src/api/routes/coding.py", "should_trigger": true},
+  {"query": "Need to update tests/clinical/test_coding_accuracy_mimic.py to check that outpatient encounters never have uncertain diagnoses coded as confirmed", "should_trigger": true},
+  {"query": "I'm adding CC/MCC status lookup to the mcp_icd10_lookup tool — is N17.9 an MCC? What about I50.9?", "should_trigger": true},
+  {"query": "Can you help me understand when 'ruled out' vs 'rule out' matters? A physician wrote 'pneumonia has been ruled out' and I want to make sure the coding agent handles this correctly", "should_trigger": true},
+  {"query": "The OBSENC encounter class should map to outpatient coding rules, but our encounter_class_mapping dict has it as inpatient. Fix this in src/core/fhir/resources.py", "should_trigger": true},
+  {"query": "I need to set up the FHIR client to handle Epic's 5-minute token expiry — the TokenManager should proactively refresh", "should_trigger": false},
+  {"query": "Can you write a CDI query template for AKI that follows AHIMA non-leading standards?", "should_trigger": false},
+  {"query": "The DRG grouper is calculating the wrong weight for DRG 291 — can you check the weight table in src/core/drg/grouper.py?", "should_trigger": false},
+  {"query": "I need to add rate limiting retry logic with exponential backoff to the FHIR client", "should_trigger": false},
+  {"query": "Can you generate a CFO-facing narrative that explains the revenue impact of documenting AKI?", "should_trigger": false},
+  {"query": "Write a structlog processor that filters PHI fields from log entries before they're written", "should_trigger": false},
+  {"query": "Update the FastAPI health check endpoint to return the current version number from pyproject.toml", "should_trigger": false},
+  {"query": "I need to add prior authorization requirement checks — does CPT 72141 (MRI spine) require PA from UnitedHealthcare?", "should_trigger": false}
+]

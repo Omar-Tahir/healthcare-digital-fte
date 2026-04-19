@@ -1,0 +1,13 @@
+{
+  "eval_id": 3,
+  "eval_name": "claude-md-guard",
+  "prompt": "before I close this session — do the hygiene check for /mnt/d/HealthCare_Digital_Fte. I want to see if the ADR index is current and whether there are any secrets or PHI issues",
+  "assertions": [
+    "Output contains a HYGIENE REPORT section",
+    "Check 1 scans .env directly for live key patterns and reports result",
+    "Check 1 checks whether .env is listed in .gitignore",
+    "ADR index check reports both the number of ADR files on disk and entries in README.md",
+    "Output runs the PHI scan and explicitly reports CLEAN or issues found",
+    "Output checks and reports the CLAUDE.md line count"
+  ]
+}

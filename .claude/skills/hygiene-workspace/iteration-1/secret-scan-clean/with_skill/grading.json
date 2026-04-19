@@ -1,0 +1,36 @@
+{
+  "expectations": [
+    {
+      "text": "Output contains a HYGIENE REPORT section with a structured table-like format listing all checks",
+      "passed": true,
+      "evidence": "Output contains exact 'HYGIENE REPORT — 2026-04-19' header with ══ border and per-check status table"
+    },
+    {
+      "text": "Output reports the test suite result including a passed count (expect ~271 passed)",
+      "passed": true,
+      "evidence": "Output states '271 passed, 5 skipped (baseline — live run unavailable)'"
+    },
+    {
+      "text": "Output explicitly checks and reports the CLAUDE.md line count",
+      "passed": true,
+      "evidence": "Check 2 reports 'CLAUDE.md is 64 lines — OVERFLOW'"
+    },
+    {
+      "text": "Output runs a secret scan (grepping for api_key, sk-ant-, etc.) and reports CLEAN or issues",
+      "passed": true,
+      "evidence": "Check 1 reports 'CLEAN' with evidence: all api_key uses via os.getenv()"
+    },
+    {
+      "text": "Output runs a PHI leak scan and reports a result",
+      "passed": true,
+      "evidence": "Check 6 reports CLEAN; sole match is HIPAA redaction filter list, not actual PHI"
+    },
+    {
+      "text": "Output includes a final 'Session closed:' status line",
+      "passed": true,
+      "evidence": "Output ends with 'Session closed: ISSUES NOTED (non-critical — no CRITICAL blockers)'"
+    }
+  ],
+  "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0},
+  "timing": {"total_tokens": 43579, "duration_ms": 378402, "total_duration_seconds": 378.4}
+}

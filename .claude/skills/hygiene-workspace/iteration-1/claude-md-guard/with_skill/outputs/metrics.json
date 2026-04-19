@@ -1,0 +1,9 @@
+{
+  "tool_calls": {"Bash": 0, "Read": 15, "Grep": 20, "Glob": 10},
+  "total_tool_calls": 45,
+  "total_steps": 10,
+  "files_created": ["output.md"],
+  "errors_encountered": 1,
+  "output_chars": 2900,
+  "transcript_chars": 0
+}

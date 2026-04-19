@@ -1,0 +1,22 @@
+[
+  {"query": "The FHIR client is getting HTTP 429 from Epic's API — we need exponential backoff with retry-after header support. Can you update src/core/fhir/client.py?", "should_trigger": true},
+  {"query": "Epic sends clinical notes in 4 different content types — text/plain, text/html, application/xml, and application/pdf. The DocumentReference parser only handles plain text. Can you add the others?", "should_trigger": true},
+  {"query": "The encounter class mapping is wrong — OBSENC is being treated as inpatient but it should map to outpatient coding rules. Fix src/core/fhir/resources.py", "should_trigger": true},
+  {"query": "Epic access tokens expire in 5 minutes, not the standard 60. Our TokenManager needs to proactively refresh when <60 seconds remain", "should_trigger": true},
+  {"query": "I need to implement the circuit breaker pattern for FHIR calls — CLOSED after 3 consecutive failures becomes OPEN, then HALF_OPEN after 60 seconds", "should_trigger": true},
+  {"query": "A patient has opted out via 21st Century Cures Act and the FHIR API returns 404. We need to handle this gracefully and enable manual coding mode", "should_trigger": true},
+  {"query": "The clinical note has a relatesTo.code of 'appends' — does that mean we analyze both the original and addendum, or just the addendum?", "should_trigger": true},
+  {"query": "I need to add SMART on FHIR JWT assertion authentication to the FHIR client. Epic requires RS384 signing", "should_trigger": true},
+  {"query": "The mcp_fhir_get_clinical_notes function needs to filter DocumentReferences by LOINC type code — only fetch discharge summaries (18842-5) and H&P notes (34117-2)", "should_trigger": true},
+  {"query": "When an encounter converts from observation (OBSENC) to inpatient (IMP), we need to discard all previous coding analysis and re-analyze. How should we detect this transition?", "should_trigger": true},
+  {"query": "The FHIR client should return DegradedResult instead of raising exceptions — per Article II.5, we never block the coder workflow", "should_trigger": true},
+  {"query": "I need to parse C-CDA XML to extract the Assessment section (LOINC 51848-0) and Plan of Treatment (18776-5) from a DocumentReference", "should_trigger": true},
+  {"query": "The DRG grouper needs to calculate the revenue delta between DRG 291 and 293 — what's the weight difference?", "should_trigger": false},
+  {"query": "I need to write a non-leading CDI query for AKI detection based on creatinine rise", "should_trigger": false},
+  {"query": "Can you add the Excludes 1 validation for E10.x and E11.x to the rules engine?", "should_trigger": false},
+  {"query": "Write a structlog PHI filter that blocks patient names and SSNs from appearing in logs", "should_trigger": false},
+  {"query": "I need to check whether MRI spine (CPT 72141) requires prior auth from Cigna", "should_trigger": false},
+  {"query": "Can you update the NLP temporal reasoning module to detect 'within 48 hours' patterns for AKI KDIGO staging?", "should_trigger": false},
+  {"query": "The coding agent's confidence threshold is set to 0.65 — should we lower it to 0.50 for the senior review queue?", "should_trigger": false},
+  {"query": "I need to generate a CFO-facing revenue narrative explaining why documenting acute-on-chronic systolic HF matters", "should_trigger": false}
+]

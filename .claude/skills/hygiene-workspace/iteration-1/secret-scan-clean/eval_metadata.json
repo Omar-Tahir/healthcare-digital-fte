@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "eval_name": "secret-scan-clean",
+  "prompt": "ok I think I'm done for today. can you run the end-of-session hygiene check on the project at /mnt/d/HealthCare_Digital_Fte? want to make sure everything's clean before I close up",
+  "assertions": [
+    "Output contains a HYGIENE REPORT section with a structured table-like format listing all checks",
+    "Output reports the test suite result including a passed count (expect ~271 passed)",
+    "Output explicitly checks and reports the CLAUDE.md line count",
+    "Output runs a secret scan (grepping for api_key, sk-ant-, etc.) and reports CLEAN or issues",
+    "Output runs a PHI leak scan and reports a result",
+    "Output includes a final 'Session closed:' status line"
+  ]
+}

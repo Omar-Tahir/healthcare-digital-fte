@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "wrap-up-phrase",
+  "prompt": "wrapping up — run /hygiene on /mnt/d/HealthCare_Digital_Fte please",
+  "assertions": [
+    "Output contains a HYGIENE REPORT section",
+    "Check 1 scans .env directly for live key patterns and reports result",
+    "Check 1 checks whether .env is gitignored",
+    "Output runs a skill validity check against .claude/skills/*/SKILL.md files",
+    "Output runs a prompt injection scan on CLAUDE.md and skill files",
+    "Output includes a final 'Session closed:' status line"
+  ]
+}

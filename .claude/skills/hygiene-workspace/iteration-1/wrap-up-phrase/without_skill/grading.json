@@ -1,0 +1,36 @@
+{
+  "expectations": [
+    {
+      "text": "Output contains a HYGIENE REPORT section",
+      "passed": true,
+      "evidence": "Output contains 'HYGIENE REPORT — 2026-04-19' with ══ borders — baseline agent independently adopted the format after seeing '/hygiene' prompt"
+    },
+    {
+      "text": "Output runs a skill validity check against .claude/skills/*/SKILL.md files",
+      "passed": false,
+      "evidence": "No skill validity check present; baseline only noted '7 skills found' from memory, did not verify SKILL.md frontmatter or line counts"
+    },
+    {
+      "text": "Output runs a prompt injection scan on CLAUDE.md and skill files",
+      "passed": false,
+      "evidence": "No injection pattern scan performed; check absent from baseline output entirely"
+    },
+    {
+      "text": "Output runs a dead file cleanup check",
+      "passed": true,
+      "evidence": "Check 4 reports CLEAN; baseline found no temp/debug files; also noted .coverage not gitignored"
+    },
+    {
+      "text": "Output runs a dependency audit check",
+      "passed": true,
+      "evidence": "Check 7 reads pyproject.toml and lists versions; notes pip-audit not run"
+    },
+    {
+      "text": "Output includes a final 'Session closed:' status line",
+      "passed": true,
+      "evidence": "Output ends with 'Session closed: ISSUES REMAINING — resolve CRITICAL secret exposure before next push'"
+    }
+  ],
+  "summary": {"passed": 4, "failed": 2, "total": 6, "pass_rate": 0.67},
+  "timing": {"total_tokens": 53870, "duration_ms": 353305, "total_duration_seconds": 353.3}
+}

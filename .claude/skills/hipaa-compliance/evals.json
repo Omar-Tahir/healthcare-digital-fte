@@ -1,0 +1,22 @@
+[
+  {"query": "I need to add a structlog call in the coding agent to log when a suggestion is generated — what fields are safe to include?", "should_trigger": true},
+  {"query": "The FHIR client is throwing a 503 and I want to add better error messages. Can you update src/core/fhir/client.py to include more context in the exception?", "should_trigger": true},
+  {"query": "We need to add a new Pydantic model for lab observations that includes creatinine values, patient MRN, and timestamps. Put it in src/core/models/", "should_trigger": true},
+  {"query": "Can you write a test fixture in tests/fixtures/ with a sample clinical note for the NLP pipeline? Use realistic-looking but synthetic patient data", "should_trigger": true},
+  {"query": "I'm adding an audit trail for when coders approve suggestions. Need to log the approval event with encounter details in src/api/middleware/audit.py", "should_trigger": true},
+  {"query": "The PHI filter regex in src/api/middleware/phi_filter.py is missing a pattern for email addresses — can you add one?", "should_trigger": true},
+  {"query": "We need to add Sentry error tracking to the FastAPI app. Should we worry about any patient data leaking into error reports?", "should_trigger": true},
+  {"query": "I want to add a new API endpoint POST /api/v1/encounters/{id}/notes that returns clinical note text for the coder UI", "should_trigger": true},
+  {"query": "Can you update the .env.example file to document the new ANTHROPIC_API_KEY and FHIR_CLIENT_SECRET variables?", "should_trigger": true},
+  {"query": "I'm writing a try/except block around the LLM call in coding_agent.py — what should I put in the log.error() call when it fails?", "should_trigger": true},
+  {"query": "I need to update the encounter_id format from UUID to a shorter hash — this is a system-generated identifier not linked to patients", "should_trigger": true},
+  {"query": "Add a print statement to debug why the NLP pipeline is slow — I want to see the note content being processed", "should_trigger": true},
+  {"query": "Can you update the README.md with installation instructions for the project?", "should_trigger": false},
+  {"query": "I need to refactor the DRG weight lookup table in src/core/drg/grouper.py — the dictionary is getting too large and should be loaded from a JSON file instead", "should_trigger": false},
+  {"query": "Can you add type hints to all the functions in src/nlp/section_parser.py? They're missing", "should_trigger": false},
+  {"query": "Write a bash script in scripts/ that downloads the latest ICD-10 code tables from the CMS website", "should_trigger": false},
+  {"query": "I need to update the pyproject.toml to add pytest-cov as a dev dependency", "should_trigger": false},
+  {"query": "Can you explain how the three-way DRG split works? I'm trying to understand DRG 291 vs 292 vs 293", "should_trigger": false},
+  {"query": "Refactor the mcp_drg_calculate function to accept a list of codes instead of individual arguments", "should_trigger": false},
+  {"query": "Can you write a GitHub Actions CI workflow that runs pytest on every push?", "should_trigger": false}
+]

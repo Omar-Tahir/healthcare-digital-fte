@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "eval_name": "secret-scan-clean",
+  "prompt": "ok I think I'm done for today. can you run the end-of-session hygiene check on the project at /mnt/d/HealthCare_Digital_Fte? want to make sure everything's clean before I close up",
+  "assertions": [
+    "Output contains a HYGIENE REPORT section with a structured table-like format listing all checks",
+    "Check 1 scans .env directly for live key patterns (gsk_, sk-ant-, AKIA, etc.) — not just *.py files",
+    "Check 1 explicitly verifies .env is listed in .gitignore and reports the result",
+    "Output reports the test suite result including a passed count",
+    "Output explicitly checks and reports the CLAUDE.md line count",
+    "Output includes a final 'Session closed:' status line"
+  ]
+}

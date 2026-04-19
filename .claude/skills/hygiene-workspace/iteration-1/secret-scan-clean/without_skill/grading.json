@@ -1,0 +1,36 @@
+{
+  "expectations": [
+    {
+      "text": "Output contains a HYGIENE REPORT section with a structured table-like format listing all checks",
+      "passed": false,
+      "evidence": "Output uses '## End-of-Session Hygiene Report' prose heading with numbered sections, no ══ border table format"
+    },
+    {
+      "text": "Output reports the test suite result including a passed count (expect ~271 passed)",
+      "passed": true,
+      "evidence": "Section 6 reports '271 passed, 5 skipped (MIMIC data not downloaded — correct and expected)'"
+    },
+    {
+      "text": "Output explicitly checks and reports the CLAUDE.md line count",
+      "passed": false,
+      "evidence": "No CLAUDE.md line count check present anywhere in output; skill-specific check absent"
+    },
+    {
+      "text": "Output runs a secret scan (grepping for api_key, sk-ant-, etc.) and reports CLEAN or issues",
+      "passed": true,
+      "evidence": "Section 2 reports CRITICAL: real Groq key in .env; also confirms src/ is CLEAN"
+    },
+    {
+      "text": "Output runs a PHI leak scan and reports a result",
+      "passed": true,
+      "evidence": "Section 3 reports HIPAA logging compliance CLEAN"
+    },
+    {
+      "text": "Output includes a final 'Session closed:' status line",
+      "passed": false,
+      "evidence": "Output ends with an 'Action Items Before Next Session' table; no 'Session closed:' line"
+    }
+  ],
+  "summary": {"passed": 3, "failed": 3, "total": 6, "pass_rate": 0.5},
+  "timing": {"total_tokens": 46115, "duration_ms": 287517, "total_duration_seconds": 287.5}
+}

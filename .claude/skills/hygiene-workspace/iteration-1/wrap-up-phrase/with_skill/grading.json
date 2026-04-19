@@ -1,0 +1,36 @@
+{
+  "expectations": [
+    {
+      "text": "Output contains a HYGIENE REPORT section",
+      "passed": true,
+      "evidence": "Output contains exact 'HYGIENE REPORT — 2026-04-19' with ══ borders and per-check status icons"
+    },
+    {
+      "text": "Output runs a skill validity check against .claude/skills/*/SKILL.md files",
+      "passed": true,
+      "evidence": "Check 9 runs and produces a table of 7 skills with name/description/line count validation"
+    },
+    {
+      "text": "Output runs a prompt injection scan on CLAUDE.md and skill files",
+      "passed": true,
+      "evidence": "Check 3 reports CLEAN: zero injection pattern matches across all scanned files"
+    },
+    {
+      "text": "Output runs a dead file cleanup check",
+      "passed": true,
+      "evidence": "Check 4 reports CLEAN: no temp/debug/backup files found via Glob"
+    },
+    {
+      "text": "Output runs a dependency audit check",
+      "passed": true,
+      "evidence": "Check 7 lists key packages from pyproject.toml; notes pip-audit not run (Bash unavailable)"
+    },
+    {
+      "text": "Output includes a final 'Session closed:' status line",
+      "passed": true,
+      "evidence": "Output ends with 'Session closed: ISSUES REMAINING (CLAUDE.md 4 lines over limit; test suite unverified)'"
+    }
+  ],
+  "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0},
+  "timing": {"total_tokens": 37981, "duration_ms": 379999, "total_duration_seconds": 380.0}
+}

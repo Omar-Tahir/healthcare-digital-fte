@@ -1,0 +1,23 @@
+# Secrets — never commit
+.env
+*.key
+*.pem
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# MIMIC-IV data — de-identified but gitignored per ADR-013
+data/mimic/
+data/icd10/
+data/drg/
+
+# Benchmark results
+data/

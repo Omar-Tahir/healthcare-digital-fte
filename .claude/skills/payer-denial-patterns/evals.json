@@ -1,0 +1,22 @@
+[
+  {"query": "We need to add pre-submission validation that checks NCCI edits before a claim goes out — if two CPT codes are bundled, flag it before submission", "should_trigger": true},
+  {"query": "What's the timely filing deadline for UnitedHealthcare? We need to set up auto-escalation alerts at 75%, 90%, and 95% of the deadline", "should_trigger": true},
+  {"query": "I'm building the denial prediction module — what are the top reasons claims get denied and which ones can we prevent with AI?", "should_trigger": true},
+  {"query": "The coding agent needs to check medical necessity for inpatient admission — the two-midnight rule requires documentation of expected LOS >= 2 midnights", "should_trigger": true},
+  {"query": "Can you add prior auth requirement checking? When a coder is reviewing CPT 27447 (total knee replacement), we should flag that all major payers require PA", "should_trigger": true},
+  {"query": "I need to write an appeal letter for a medical necessity denial on MRI spine — the LCD requires documented radiculopathy and 4-6 weeks failed conservative care", "should_trigger": true},
+  {"query": "We're getting a lot of duplicate claim denials — can you add deduplication logic that checks if a claim was already submitted before allowing resubmission?", "should_trigger": true},
+  {"query": "The claim validation module needs to check for missing information — modifier, referring provider, POS code are the top three fields that cause denials when missing", "should_trigger": true},
+  {"query": "86% of PA denials are overturned on appeal per AMA 2023 — can we build an automated appeal letter generator using the PROMPT-004 template?", "should_trigger": true},
+  {"query": "I need to add payer-specific bundling rules beyond NCCI — Anthem has their own bundling edits for outpatient procedures that differ from CMS", "should_trigger": true},
+  {"query": "Can you implement real-time eligibility verification? We need to check patient coverage before the service date to prevent eligibility denials", "should_trigger": true},
+  {"query": "The LCD for cardiac catheterization (CPT 93451) requires an abnormal stress test or acute coronary syndrome — our system should validate this before submission", "should_trigger": true},
+  {"query": "I need to calculate the DRG revenue impact of adding N17.9 to an encounter with principal diagnosis I50.9", "should_trigger": false},
+  {"query": "Can you fix the Excludes 1 validation in the ICD-10 rules engine? It's letting through E10.x and E11.x together", "should_trigger": false},
+  {"query": "I need to write an AHIMA-compliant CDI query for heart failure without type specification", "should_trigger": false},
+  {"query": "The FHIR client needs to handle Epic's 5-minute token expiry and proactively refresh", "should_trigger": false},
+  {"query": "Can you add a structlog PHI filter that blocks patient MRNs from appearing in log entries?", "should_trigger": false},
+  {"query": "I need to update the NLP section parser to handle C-CDA XML format from Epic's DocumentReference", "should_trigger": false},
+  {"query": "The coding agent confidence threshold of 0.65 seems too high — can we add a configurable threshold in the settings?", "should_trigger": false},
+  {"query": "Can you refactor the DRGGrouper class to use a JSON data file instead of hardcoded weight dictionaries?", "should_trigger": false}
+]

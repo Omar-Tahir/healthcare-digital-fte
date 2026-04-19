@@ -1,0 +1,22 @@
+[
+  {"query": "I need to calculate the revenue impact of adding N17.9 (AKI) as a secondary diagnosis to an encounter with principal I50.9. What DRG does it go from and to?", "should_trigger": true},
+  {"query": "The DRG grouper in src/core/drg/grouper.py is returning wrong weights for the heart failure family — DRG 291 should be ~1.76 but it's showing 1.42. Can you fix?", "should_trigger": true},
+  {"query": "I need to write the CFO-facing narrative for DRG impact — something like 'Documenting AKI generated $4,200 in additional reimbursement'. What's the right format?", "should_trigger": true},
+  {"query": "Can you add the G-SOFT-003 compliance review flag? When a single code addition would improve DRG by more than $5,000, we need to flag it for compliance review", "should_trigger": true},
+  {"query": "The coding agent needs to sort suggestions by DRG revenue impact so the highest-value suggestions appear first in the coder UI", "should_trigger": true},
+  {"query": "I'm building the CC/MCC upgrade detection — need a checklist of the top 10 commonly underdocumented conditions and how to detect them from labs and meds", "should_trigger": true},
+  {"query": "Can you explain the three-way DRG split for the sepsis family? I need to understand why DRG 870 vs 872 is a $42,759 difference", "should_trigger": true},
+  {"query": "The mcp_drg_impact tool needs to return the revenue delta, current DRG, proposed DRG, and a compliance flag. Can you update src/mcp/drg_tools.py?", "should_trigger": true},
+  {"query": "We need to show case mix index improvement projections on the CFO dashboard — aggregate DRG weight changes across all encounters analyzed this month", "should_trigger": true},
+  {"query": "I'm adding a DRG family shift detection: when linking HTN + HF moves the case from DRG 304-305 to DRG 291-293, that's a bigger impact than just a CC upgrade", "should_trigger": true},
+  {"query": "The DRG narrative prompt in src/prompts/drg_analysis.py says 'MCC capture rate improved DRG weight by 0.8' — that's jargon, not CFO language. Can you rewrite?", "should_trigger": true},
+  {"query": "Can you update the base rate constant in the DRG calculator? We're using $6,500 but the current national average is $6,484", "should_trigger": true},
+  {"query": "I need to write a non-leading CDI query for heart failure type — the note says 'CHF' without specifying systolic or diastolic", "should_trigger": false},
+  {"query": "The FHIR client is getting 429 rate limit errors from Epic — can you implement exponential backoff?", "should_trigger": false},
+  {"query": "Can you add outpatient uncertain diagnosis validation? If encounter is OBSENC and note says 'possible pneumonia', code R05.9 not J18.9", "should_trigger": false},
+  {"query": "I need to add a structlog processor that strips patient names and DOBs from log entries", "should_trigger": false},
+  {"query": "Write a FHIR DocumentReference parser that handles C-CDA XML and plain text formats", "should_trigger": false},
+  {"query": "I need to check whether CPT 27447 (total knee replacement) requires prior auth from Aetna", "should_trigger": false},
+  {"query": "Can you update the NLP negation detection to handle double negatives like 'not without evidence of' correctly?", "should_trigger": false},
+  {"query": "The approval token HMAC validation in src/api/security/approval_token.py is failing for tokens older than 15 minutes — is that expected?", "should_trigger": false}
+]
