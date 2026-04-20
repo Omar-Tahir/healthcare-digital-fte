@@ -21,3 +21,5 @@ data/drg/
 
 # Benchmark results
 data/
+keys/
+keys/public_jwks.json

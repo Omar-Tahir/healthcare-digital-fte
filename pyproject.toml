@@ -34,6 +34,7 @@ markers = [
     "hard_guardrail: marks hard guardrail tests (P0 priority)",
     "soft_guardrail: marks soft guardrail tests",
     "mimic: marks MIMIC-IV accuracy tests (requires downloaded data; skip with -m 'not mimic')",
+    "integration: marks live Epic sandbox tests (requires FHIR env vars and network access)",
 ]
 
 [tool.ruff]
@@ -52,4 +53,5 @@ dev = [
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
     "pytest-cov>=7.1.0",
+    "python-dotenv>=1.2.2",
 ]
