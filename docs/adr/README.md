@@ -41,7 +41,3 @@ for the Healthcare Digital FTE project.
 | ADR-014 | LLM Provider Abstraction Layer | ACCEPTED | 2026-04-13 |
 
 ---
-
-## ADR Template
-
-See `ADR-000-template.md` for the standard ADR format.
