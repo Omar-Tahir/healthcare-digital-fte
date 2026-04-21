@@ -50,10 +50,12 @@ class FHIRAuthenticator:
         client_id: str,
         token_url: str,
         private_key_pem: str,
+        kid: str | None = None,
     ) -> None:
         self._client_id = client_id
         self._token_url = token_url
         self._private_key_pem = private_key_pem
+        self._kid = kid
         self._cache: TokenCache | None = None
 
     async def get_token(self) -> str | None:
@@ -82,10 +84,12 @@ class FHIRAuthenticator:
                 "iat": now,
             }
 
+            headers = {"kid": self._kid} if self._kid else {}
             assertion = pyjwt.encode(
                 payload,
                 self._private_key_pem,
                 algorithm="RS256",
+                headers=headers,
             )
 
             async with httpx.AsyncClient() as http:

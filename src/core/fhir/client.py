@@ -57,6 +57,7 @@ class FHIRClient:
         base_url: str,
         client_id: str,
         private_key_pem: str,
+        kid: str | None = None,
     ) -> None:
         self._base_url = base_url.rstrip("/")
         # Build token URL from base URL (split on /api/ to get the host)
@@ -65,6 +66,7 @@ class FHIRClient:
             client_id=client_id,
             token_url=f"{host}/oauth2/token",
             private_key_pem=private_key_pem,
+            kid=kid,
         )
         self._http = httpx.AsyncClient(timeout=30.0)
 
