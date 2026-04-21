@@ -36,7 +36,7 @@ class FHIRAuthenticator:
     Manages SMART on FHIR Backend Services token lifecycle.
 
     Token flow:
-    1. Generate JWT assertion signed with RS256 private key
+    1. Generate JWT assertion signed with RS384 private key
     2. POST to Epic token endpoint
     3. Cache token until 60 seconds before expiry
     4. Auto-refresh when cache is stale
@@ -88,7 +88,7 @@ class FHIRAuthenticator:
             assertion = pyjwt.encode(
                 payload,
                 self._private_key_pem,
-                algorithm="RS256",
+                algorithm="RS384",
                 headers=headers,
             )
 
@@ -96,8 +96,9 @@ class FHIRAuthenticator:
                 response = await http.post(
                     self._token_url,
                     data={
-                        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-                        "assertion": assertion,
+                        "grant_type": "client_credentials",
+                        "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+                        "client_assertion": assertion,
                     },
                     timeout=10.0,
                 )

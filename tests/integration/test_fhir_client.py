@@ -56,6 +56,7 @@ def fhir_client() -> FHIRClient:
         base_url=base_url,
         client_id=client_id,
         private_key_pem=open(key_path).read(),
+        kid=os.getenv("FHIR_KID"),
     )
 
 
