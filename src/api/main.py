@@ -16,11 +16,13 @@ Constitution: II.1 (approval token required),
 """
 import os
 
+import json
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from fastapi.responses import FileResponse, JSONResponse
 from src.api.routes import health, coding
 
 app = FastAPI(
@@ -82,3 +84,13 @@ async def add_security_headers(request: Request, call_next):
 
 app.include_router(health.router)
 app.include_router(coding.router)
+
+
+_jwks_path = os.path.join(os.path.dirname(__file__), "static", "jwks.json")
+
+
+@app.get("/jwks.json", include_in_schema=False)
+async def jwks() -> JSONResponse:
+    """Serve public JWK Set for Epic SMART on FHIR backend authentication."""
+    with open(_jwks_path) as f:
+        return JSONResponse(content=json.load(f))

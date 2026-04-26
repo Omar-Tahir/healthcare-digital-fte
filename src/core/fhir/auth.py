@@ -50,7 +50,7 @@ class FHIRAuthenticator:
         client_id: str,
         token_url: str,
         private_key_pem: str,
-        kid: str | None = None,
+        kid: str = "healthcare-fte-2026-04-27",
     ) -> None:
         self._client_id = client_id
         self._token_url = token_url
@@ -81,6 +81,7 @@ class FHIRAuthenticator:
                 "aud": self._token_url,
                 "jti": str(uuid.uuid4()),
                 "exp": now + 300,
+                "nbf": now,
                 "iat": now,
             }
 
@@ -117,9 +118,21 @@ class FHIRAuthenticator:
             return self._cache.access_token
 
         except Exception as e:
+            import httpx as _httpx
+            http_status = None
+            epic_error = None
+            if isinstance(e, _httpx.HTTPStatusError):
+                http_status = e.response.status_code
+                try:
+                    body = e.response.json()
+                    epic_error = body.get("error")
+                except Exception:
+                    pass
             log.warning(
                 "fhir_token_fetch_failed",
                 error_type=type(e).__name__,
-                # Never log private_key_pem, client_id, or any credential
+                http_status=http_status,
+                epic_error=epic_error,
+                # Never log private_key_pem, client_id, or credentials
             )
             return None
