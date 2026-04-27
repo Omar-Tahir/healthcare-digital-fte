@@ -130,6 +130,7 @@ def parse_document_reference(raw: dict) -> FHIRDocumentReference | None:
 
         content_list = raw.get("content", [])
         note_text: str | None = None
+        binary_url: str | None = None
         content_type = NoteContentType.UNKNOWN
 
         if content_list:
@@ -138,6 +139,11 @@ def parse_document_reference(raw: dict) -> FHIRDocumentReference | None:
             content_type = _map_content_type(raw_ct)
             extracted = extract_note_text(attachment)
             note_text = extracted if extracted else None
+            # Epic returns note content via a Binary URL when no inline data
+            if not note_text:
+                url = attachment.get("url", "")
+                if url:
+                    binary_url = url
 
         return FHIRDocumentReference(
             id=doc_id,
@@ -147,6 +153,7 @@ def parse_document_reference(raw: dict) -> FHIRDocumentReference | None:
             authored_date=authored_date,
             content_type=content_type,
             note_text=note_text,
+            binary_url=binary_url,
         )
 
     except Exception as e:
