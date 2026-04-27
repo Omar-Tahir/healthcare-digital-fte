@@ -21,6 +21,7 @@ from typing import TYPE_CHECKING
 import structlog
 from pydantic import BaseModel
 
+from src.core.models.cdi import CDIOpportunity
 from src.core.models.coding import CodingSuggestion
 from src.core.models.fhir import DegradedResult
 
@@ -44,6 +45,7 @@ class PipelineResult(BaseModel):
     encounter_id: str
     notes_analyzed: int
     suggestions: list[CodingSuggestion]
+    cdi_opportunities: list[CDIOpportunity]
     draft_claim_id: str | None
     processing_time_ms: float
     is_degraded: bool
@@ -113,6 +115,7 @@ class EpicCodingPipeline:
                 encounter_id=encounter_id,
                 notes_analyzed=0,
                 suggestions=[],
+                cdi_opportunities=[],
                 draft_claim_id=None,
                 processing_time_ms=(time.time() - start) * 1000,
                 is_degraded=True,
@@ -121,31 +124,42 @@ class EpicCodingPipeline:
         # Step 3: Labs (non-fatal — empty list is fine)
         await self._fhir.get_recent_labs(patient_id, encounter_id, _CDI_LOINC_PANEL)
 
-        # Step 4: Analyze each note with text
+        # Step 4: Analyze notes in parallel — each is independent
+        import asyncio
         from src.agents.coding_agent import CodingAgent
         agent = CodingAgent()
+        text_notes = [n for n in notes if n.note_text]
+
+        async def _analyze(note):
+            return await agent.analyze_note(note, encounter)
+
+        raw_results = await asyncio.gather(
+            *[_analyze(n) for n in text_notes],
+            return_exceptions=True,
+        )
+
         all_suggestions: list[list[CodingSuggestion]] = []
+        all_cdi: list[CDIOpportunity] = []
         notes_analyzed = 0
 
-        for note in notes:
-            if not note.note_text:
-                continue
-            result = await agent.analyze_note(note, encounter)
-            if isinstance(result, DegradedResult):
+        for result in raw_results:
+            if isinstance(result, Exception) or isinstance(result, DegradedResult):
                 is_degraded = True
                 log.warning(
                     "epic_pipeline_note_analysis_degraded",
                     encounter_id=encounter_id,
-                    error_code=result.error_code,
+                    error_type=type(result).__name__,
                 )
                 continue
             if result.is_degraded:
                 is_degraded = True
             all_suggestions.append(result.suggestions)
+            all_cdi.extend(result.cdi_opportunities or [])
             notes_analyzed += 1
 
         # Step 5: Merge suggestions across notes
         merged = _merge_suggestions(all_suggestions)
+        merged_cdi = _merge_cdi(all_cdi)
 
         # Step 6: Write draft claim (non-fatal)
         draft_claim_id: str | None = None
@@ -158,7 +172,9 @@ class EpicCodingPipeline:
                 validation_result=ValidationResult(is_valid=True),
                 processing_time_ms=0,
             )
-            claim_result = await self._fhir.write_draft_claim(encounter_id, coding_result)
+            claim_result = await self._fhir.write_draft_claim(
+                encounter_id, coding_result, patient_id=patient_id
+            )
             if isinstance(claim_result, DegradedResult):
                 log.warning(
                     "epic_pipeline_claim_write_failed",
@@ -183,6 +199,7 @@ class EpicCodingPipeline:
             encounter_id=encounter_id,
             notes_analyzed=notes_analyzed,
             suggestions=merged,
+            cdi_opportunities=merged_cdi,
             draft_claim_id=draft_claim_id,
             processing_time_ms=(time.time() - start) * 1000,
             is_degraded=is_degraded,
@@ -199,10 +216,27 @@ class EpicCodingPipeline:
             encounter_id=encounter_id,
             notes_analyzed=0,
             suggestions=[],
+            cdi_opportunities=[],
             draft_claim_id=None,
             processing_time_ms=(time.time() - start) * 1000,
             is_degraded=True,
         )
+
+
+def _merge_cdi(opportunities: list[CDIOpportunity]) -> list[CDIOpportunity]:
+    """
+    Dedup CDI opportunities across notes by (suggested_code, query_category).
+    Keeps first occurrence — CDI queries are equivalent if they target the same
+    code with the same category regardless of which note triggered them.
+    """
+    seen: set[tuple[str, str]] = set()
+    merged: list[CDIOpportunity] = []
+    for opp in opportunities:
+        key = (opp.suggested_code, opp.query_category)
+        if key not in seen:
+            seen.add(key)
+            merged.append(opp)
+    return merged
 
 
 def _merge_suggestions(

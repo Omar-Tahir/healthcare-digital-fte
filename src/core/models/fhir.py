@@ -51,7 +51,7 @@ class FHIRDocumentReference(BaseModel):
     authored_date: datetime
     content_type: NoteContentType
     note_text: str | None = None
-    # note_text is None if extraction failed → triggers DegradedResult
+    binary_url: str | None = None  # Epic stores note content as a Binary URL when no inline data
 
 
 class FHIREncounter(BaseModel):

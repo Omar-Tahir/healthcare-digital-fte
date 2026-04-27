@@ -138,21 +138,31 @@ class FHIRClient:
         if note_types:
             params["type"] = ",".join(note_types)
 
-        raw = await self._get("/DocumentReference", params=params)
-        if isinstance(raw, DegradedResult):
+        first_page = await self._get("/DocumentReference", params=params)
+        if isinstance(first_page, DegradedResult):
             log.warning(
                 "clinical_notes_fetch_degraded",
-                error_code=raw.error_code,
+                error_code=first_page.error_code,
                 encounter_id=encounter_id,
             )
             return []
 
+        all_entries = await self._collect_pages(first_page)
+
         notes: list[FHIRDocumentReference] = []
-        for entry in raw.get("entry", []):
+        for entry in all_entries:
             resource = entry.get("resource", {})
             doc = parse_document_reference(resource)
             if doc is not None:
                 notes.append(doc)
+
+        # Epic stores note content as Binary resources referenced by URL.
+        # Fetch text for any note that has a binary_url but no inline note_text.
+        for i, note in enumerate(notes):
+            if note.note_text is None and note.binary_url:
+                text = await self._fetch_binary_text(note.binary_url)
+                if text:
+                    notes[i] = note.model_copy(update={"note_text": text})
 
         log.info(
             "clinical_notes_retrieved",
@@ -209,6 +219,7 @@ class FHIRClient:
         self,
         encounter_id: str,
         coding_result: Any,
+        patient_id: str = "",
     ) -> dict[str, Any] | DegradedResult:
         """
         Write a draft claim to FHIR.
@@ -222,7 +233,7 @@ class FHIRClient:
             "resourceType": "Claim",
             "status": "draft",  # Article II.1 — HARDCODED, never "active"
             "use": "claim",
-            "patient": {"reference": "Patient/unknown"},
+            "patient": {"reference": f"Patient/{patient_id}" if patient_id else "Patient/unknown"},
             "encounter": {"reference": f"Encounter/{encounter_id}"},
             "created": datetime.now(timezone.utc).isoformat(),
             "diagnosis": [
@@ -358,6 +369,97 @@ class FHIRClient:
                 error_code="FHIR_POST_FAILED",
                 error_message=f"POST failed: {type(e).__name__}",
             )
+
+    async def _collect_pages(
+        self,
+        first_bundle: dict[str, Any],
+        max_pages: int = 10,
+    ) -> list[dict[str, Any]]:
+        """
+        Follow FHIR Bundle pagination (link[relation=next]) and collect
+        all entries across pages. Stops at max_pages to prevent runaway loops.
+        Returns the combined entry list.
+        """
+        entries: list[dict[str, Any]] = list(first_bundle.get("entry", []))
+        bundle = first_bundle
+        pages_fetched = 1
+
+        while pages_fetched < max_pages:
+            next_url = next(
+                (
+                    link["url"]
+                    for link in bundle.get("link", [])
+                    if link.get("relation") == "next"
+                ),
+                None,
+            )
+            if not next_url:
+                break
+
+            # Strip base URL prefix if present — _get expects a path
+            path = next_url
+            if self._base_url in next_url:
+                path = next_url.replace(self._base_url, "")
+
+            result = await self._get(path)
+            if isinstance(result, DegradedResult):
+                log.warning("fhir_pagination_degraded", page=pages_fetched + 1)
+                break
+
+            entries.extend(result.get("entry", []))
+            bundle = result
+            pages_fetched += 1
+
+        if pages_fetched > 1:
+            log.info("fhir_pagination_complete", pages=pages_fetched, total_entries=len(entries))
+
+        return entries
+
+    async def _fetch_binary_text(self, binary_url: str) -> str:
+        """
+        Fetch a Binary FHIR resource and extract its text content.
+
+        Epic stores clinical note text as a separate Binary resource
+        referenced by URL from DocumentReference.content[].attachment.url.
+        The URL may be relative (e.g. "Binary/abc123") or absolute.
+        Returns empty string on any failure — callers skip notes with no text.
+        """
+        import base64
+
+        path = binary_url if binary_url.startswith("/") else f"/{binary_url}"
+        try:
+            headers = await self._auth_headers()
+            headers["Accept"] = "application/fhir+json, text/html, text/plain, */*"
+            url = f"{self._base_url}{path}"
+            response = await self._http.get(url, headers=headers)
+            response.raise_for_status()
+
+            ct = response.headers.get("content-type", "")
+            if "json" in ct:
+                body = response.json()
+                data_b64 = body.get("data", "")
+                if data_b64:
+                    raw_bytes = base64.b64decode(data_b64)
+                    text = raw_bytes.decode("utf-8", errors="replace").strip()
+                    if "text/html" in body.get("contentType", ""):
+                        import re
+                        text = re.sub(r"<[^>]+>", " ", text)
+                        text = re.sub(r"\s+", " ", text).strip()
+                    return text
+            elif "html" in ct:
+                import re
+                text = re.sub(r"<[^>]+>", " ", response.text)
+                return re.sub(r"\s+", " ", text).strip()
+            else:
+                return response.text.strip()
+
+        except Exception as e:
+            log.warning(
+                "binary_fetch_failed",
+                binary_url=binary_url,
+                error_type=type(e).__name__,
+            )
+            return ""
 
     async def _auth_headers(self) -> dict[str, str]:
         """Build authorization headers. Returns empty dict if no token."""
