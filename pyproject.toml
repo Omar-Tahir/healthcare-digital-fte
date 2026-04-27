@@ -29,6 +29,8 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "module"
+asyncio_default_test_loop_scope = "module"
 markers = [
     "compliance: marks compliance guardrail tests (run with -m compliance)",
     "hard_guardrail: marks hard guardrail tests (P0 priority)",

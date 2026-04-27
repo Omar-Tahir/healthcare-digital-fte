@@ -33,10 +33,10 @@ from src.core.models.fhir import (
     FHIRPatient,
 )
 
-# Epic sandbox test patients — synthetic data only, no real PHI.
-# Source: https://fhir.epic.com/Documentation?docId=testpatients
-EPIC_TEST_PATIENT_ADULT = "eJzlzPIHTYPFGhMqw.P9XA3"
-EPIC_TEST_PATIENT_PEDIATRIC = "erXuFYUfucBZaryVksYEcMg3"
+# Epic sandbox test patients for Backend Services (system-to-system) auth.
+# These IDs work with client_credentials / system/*.read scopes.
+# The EHR Launch patient IDs (eJzlzP...) are for user-context flows only.
+EPIC_TEST_PATIENT_ADULT = "eq081-VQEgP8drUUqCWzHfw3"  # Derrick Lin
 
 
 @pytest.fixture(scope="module")

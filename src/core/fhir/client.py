@@ -362,9 +362,10 @@ class FHIRClient:
     async def _auth_headers(self) -> dict[str, str]:
         """Build authorization headers. Returns empty dict if no token."""
         token = await self._auth.get_token()
+        headers = {"Accept": "application/fhir+json"}
         if token:
-            return {"Authorization": f"Bearer {token}"}
-        return {}
+            headers["Authorization"] = f"Bearer {token}"
+        return headers
 
 
 # ─── Private utilities ────────────────────────────────────────────────────────
