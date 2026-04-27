@@ -7,8 +7,8 @@ Enforces constitution.md at every layer. No autonomous claim submission. No PHI 
 
 ## Current Status
 Phase: VALIDATE (BUILD complete — 271 passed, 5 skipped)
-Last completed: VALIDATE-002 (known-cases benchmark, 2026-04-13)
-Active task: [UPDATE THIS LINE EACH SESSION]
+Last completed: VALIDATE-005 (performance benchmark, 2026-04-27) — all 10 charts <30s, median ~6s
+Active task: VALIDATE-006 pending VALIDATE-003 (MIMIC, blocked on PhysioNet creds)
 
 ## Session Start Ritual (Required)
 Read in this order BEFORE writing any code:

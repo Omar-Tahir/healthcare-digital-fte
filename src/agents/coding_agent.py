@@ -70,7 +70,7 @@ _UNCERTAINTY_QUALIFIERS: frozenset[str] = frozenset({
     "suggestive of", "comparable with",
 })
 
-MAX_TOKENS = 4096
+MAX_TOKENS = 1500  # Coding extraction JSON is ~600 tokens; 1500 gives headroom without inflating tail latency
 
 _EVIDENCE_FUZZY_THRESHOLD = 0.80  # minimum SequenceMatcher ratio for fuzzy fallback
 _EVIDENCE_MIN_FUZZY_LEN = 15       # short quotes skip fuzzy (too many false positives)

@@ -37,6 +37,7 @@ markers = [
     "soft_guardrail: marks soft guardrail tests",
     "mimic: marks MIMIC-IV accuracy tests (requires downloaded data; skip with -m 'not mimic')",
     "integration: marks live Epic sandbox tests (requires FHIR env vars and network access)",
+    "performance: marks VALIDATE-005 latency SLA tests (requires LLM API key; <30s per chart)",
 ]
 
 [tool.ruff]

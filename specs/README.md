@@ -17,6 +17,7 @@ Healthcare Digital FTE system.
 | DESIGN-005 | FHIR Integration | COMPLETE | 2026-04-02 |
 | DESIGN-006 | Coder Review UI | COMPLETE | 2026-04-02 |
 | DESIGN-007 | MIMIC-IV Accuracy Benchmark | COMPLETE | 2026-04-08 |
+| DESIGN-008 | End-to-End Performance Benchmark | COMPLETE | 2026-04-27 |
 
 ---
 

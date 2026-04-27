@@ -22,10 +22,13 @@
 - Focus: FHIRClient, FHIRAuthenticator, all mcp_fhir_* tools
 
 ### VALIDATE-005 — Performance Benchmark
-- Status: NOT STARTED
-- Target: <30 seconds end-to-end per chart
-- Measure: NLP pipeline + LLM call + rules engine + DRG calculation
-- Method: time the full CodingAgent.analyze() on 10 test charts
+- Status: COMPLETE (2026-04-27)
+- Result: 3/3 tests passing — all 10 charts under 30s, median ~6s, NLP 2–10ms
+- Spec: specs/08-performance-benchmark.md
+- Tests: tests/clinical/test_performance_benchmark.py (3 tests, @pytest.mark.performance)
+- Script: src/benchmarks/performance_benchmark.py
+- Fix applied: reduced MAX_TOKENS from 4096→1500 in CodingAgent to eliminate tail latency spikes
+- Run: python -m pytest tests/clinical/test_performance_benchmark.py -m performance -v -s
 
 ### VALIDATE-006 — First Hospital Pilot
 - Status: NOT STARTED
