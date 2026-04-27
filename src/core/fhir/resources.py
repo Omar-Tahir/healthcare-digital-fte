@@ -230,7 +230,7 @@ def parse_observation(raw: dict) -> FHIRObservation | None:
         effective = raw.get("effectiveDateTime", "")
 
         return FHIRObservation(
-            id=raw["id"],
+            id=raw.get("id", ""),
             loinc_code=loinc_code,
             display=display,
             value_quantity=value_quantity,

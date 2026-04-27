@@ -18,6 +18,7 @@ Healthcare Digital FTE system.
 | DESIGN-006 | Coder Review UI | COMPLETE | 2026-04-02 |
 | DESIGN-007 | MIMIC-IV Accuracy Benchmark | COMPLETE | 2026-04-08 |
 | DESIGN-008 | End-to-End Performance Benchmark | COMPLETE | 2026-04-27 |
+| DESIGN-009 | Epic End-to-End Coding Pipeline | COMPLETE | 2026-04-27 |
 
 ---
 
