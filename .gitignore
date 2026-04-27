@@ -23,3 +23,15 @@ data/drg/
 data/
 keys/
 keys/public_jwks.json
+
+# Claude Code local config (machine-specific, not project config)
+.claude/settings.local.json
+
+# MCP server config (environment-specific)
+.mcp.json
+
+# Playwright MCP session artifacts (page snapshots, console logs)
+.playwright-mcp/
+
+# Screenshots captured during automation sessions
+epic-*.png
